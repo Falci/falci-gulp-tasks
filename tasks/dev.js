@@ -1,7 +1,12 @@
-var gulp = require('gulp');
+var gulp = require('gulp'),
+    runSequence = require('run-sequence');
 
 module.exports = function(config){
 
-  gulp.task('dev', ['build:dev', 'server:dev', 'watch:dev']);
+  gulp.task('dev', devTask);
+
+  function devTask () {
+    return runSequence('build:dev', 'server:dev', 'watch:dev');
+  }
 
 }

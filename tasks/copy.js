@@ -1,4 +1,7 @@
-var gulp = require('gulp');
+var gulp = require('gulp'),
+    debug = require('gulp-debug'),
+    connect = require('gulp-connect'),
+    mainBowerFiles = require('main-bower-files');
 
 module.exports = function(config){
 
@@ -7,12 +10,17 @@ module.exports = function(config){
   gulp.task('copy:vendor', copyVendor);
 
   function copyAssets () {
-    gulp.src(config.files.assets)
-    .pipe(gulp.dest(config.paths.dest));
+    return gulp.src(config.files.assets)
+      .pipe(debug({title: 'copy:assets: '}))
+      .pipe(gulp.dest(config.paths.assets))
+      .pipe(connect.reload());
   }
 
   function copyVendor () {
-    
+    return gulp.src(mainBowerFiles(),  { base: 'bower_components' })
+      .pipe(debug({title: 'copy:vendor: '}))
+      .pipe(gulp.dest(config.paths.vendor))
+      .pipe(connect.reload());
   }
 
 }
