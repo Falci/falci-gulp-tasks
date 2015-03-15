@@ -13,7 +13,15 @@ module.exports = {
     js: [src + '/**/*.js', '!**/*-spec.js'],
     less: src.concat('/style/**.less'),
     resources: [dest.concat('/css/**'), dest.concat('/js/**')],
-    sass: src.concat('/style/**.scss')
+    sass: src.concat('/style/**.scss'),
+    main: {
+      js: 'script.min.js',
+      css: 'style.min.css',
+      vendor: {
+        js: 'js/vendor.min.js',
+        css: 'css/vendor.min.css'
+      }
+    }
   },
 
   paths: {
@@ -31,12 +39,16 @@ module.exports = {
     vendor: '/vendor'
   }, 
 
+  cssEngine: 'sass',
+
   jade: {
-    pretty: true
+    pretty: true, // use gulp jade --min to pretty:false
+    data: {
+
+    }
   },
 
   server: {
-    root: dest,
     livereload: true,
     port: 8000,
     open: true

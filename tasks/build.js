@@ -2,20 +2,20 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     plumber = require('gulp-plumber'),
     ngAnnotate  = require('gulp-ng-annotate'),
-    connect = require('gulp-connect'),
+    gulpif = require('gulp-if'),
+    argv = require('yargs').argv,
     header = require('gulp-header'),
-    footer = require('gulp-footer');
+    footer = require('gulp-footer'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify');
 
 module.exports = function(config){
 
-  gulp.task('build:dev', buildDev);  
-  gulp.task('build:prod', []);
-
-  gulp.task('build:css', ['style:sass', 'style:less']);
+  gulp.task('build', build);  
   gulp.task('build:js', buildJs);
 
-  function buildDev () {
-    return runSequence('clean:dest', ['copy', 'build:js', 'build:css', 'jade'], 'inject');
+  function build (next) {
+    return runSequence('clean:dest', ['copy', 'build:js', 'style', 'jade'], 'inject', next);
   }
 
   function buildJs () {
@@ -24,8 +24,10 @@ module.exports = function(config){
       .pipe(ngAnnotate())
       .pipe(header('(function(){\n\n'))
       .pipe(footer('\n\n})();'))
-      .pipe(gulp.dest(config.paths.js))
-      .pipe(connect.reload());    
+      .pipe(gulpif(argv.min, concat(config.files.main.js)))
+      .pipe(gulpif(argv.min, uglify()))
+      .pipe(gulpif(argv.min, header('/* ' + new Date().toString() + ' */\n')))
+      .pipe(gulp.dest(config.paths.js));
   }
 
 }

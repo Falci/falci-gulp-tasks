@@ -5,8 +5,8 @@ module.exports = function(config){
 
   gulp.task('dev', devTask);
 
-  function devTask () {
-    return runSequence('build:dev', 'server:dev', 'watch:dev');
+  function devTask (next) {
+    return runSequence('build', 'server:dev', 'watch:dev', next);
   }
 
 }

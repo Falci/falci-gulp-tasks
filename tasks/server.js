@@ -1,12 +1,13 @@
 var gulp = require('gulp'),
-    connect = require('gulp-connect');
+    webserver = require('gulp-webserver');
 
 module.exports = function(config){
 
   gulp.task('server:dev', serverDev);
 
-  function serverDev () {
-    return connect.server(config.server);
+  function serverDev () {    
+    return gulp.src(config.paths.dest)
+      .pipe(webserver(config.server));
   }
 
 }
