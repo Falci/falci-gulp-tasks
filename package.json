@@ -1,0 +1,16 @@
+{
+  "name": "falci-gulp-tasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fernando Falci <falci@falci.me>",
+  "license": "ISC",
+  "dependencies": {
+    "del": "^1.1.1",
+    "express-load": "^1.1.14",
+    "gulp": "^3.8.11"
+  }
+}
