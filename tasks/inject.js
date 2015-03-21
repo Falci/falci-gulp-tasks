@@ -3,6 +3,8 @@ var gulp = require('gulp'),
     debug = require('gulp-debug'),
     argv = require('yargs').argv,
     inject = require('gulp-inject'),
+    angularFilesort = require('gulp-angular-filesort'),
+    gulpFilter = require('gulp-filter'),
     mainBowerFiles = require('main-bower-files');
 
 module.exports = function(config){
@@ -16,7 +18,11 @@ module.exports = function(config){
   }
 
   function injectResources () {
-    var resources = gulp.src(config.files.resources);
+    var js = gulpFilter('*.js');
+    var resources = gulp.src(config.files.resources)
+      .pipe(js)
+      .pipe(angularFilesort())
+      .pipe(js.restore());
 
     return gulp.src(config.files.html)
       .pipe(debug({title: 'inject:resources: '}))

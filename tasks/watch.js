@@ -9,7 +9,7 @@ module.exports = function(config){
     gulp.watch(config.files.js, ['build:js']);
     gulp.watch(config.files.less, ['style:less']);
     gulp.watch(config.files.sass, ['style:sass']);
-    gulp.watch(config.files.jade, ['jade']);
+    gulp.watch(config.files.jade, ['jade:inject']);
   }
 
 }
